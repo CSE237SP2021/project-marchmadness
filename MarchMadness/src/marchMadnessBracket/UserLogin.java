@@ -6,52 +6,51 @@ public class UserLogin {
 	
 	private static String username;
 	private static String password;
+	private static Scanner keyboardIn;
 
 	public UserLogin(String u, String p) {
 		super();
 		this.username = u;
 		this.password = p;
+		Scanner keyboardIn = new Scanner(System.in);
 	}
 
-	public static void main() {
+	public static void main(String args[]) {
 		
 		UserLogin Obj = new UserLogin(username, password);
 		
-		while (true) {
+		
+		
+		//while (true) {
 			String option = Obj.welomePage();
 	        
-	        if (option == "1") {
+	        if (option.equals("1")) {
 	        		Obj.register();
-	        		break;
+	        		//break;
 	        }
-	        else if (option == "2") {
+	        else if (option.equals("2")) {
 	        		Obj.login();
-	        		break;
+	        		//break;
 	        }
 	        else {
 	        		System.out.println("Wrong input. Please re-enter your choice.");
-	        		continue;
+	        		//continue;
 	        }
-		}
+		//}
 		
 	}
 	
 	private String welomePage() {
-		Scanner keyboardIn = new Scanner(System.in);
-		System.out.print("Welcome! Please select the following options: 1. Register 2. Log In");
+		System.out.println("Welcome! Please select the following options: 1. Register 2. Log In");
         String option = keyboardIn.nextLine();
-        keyboardIn.close();
 		return option;
 	}
 	
 	private boolean register() {
-		Scanner keyboardIn = new Scanner(System.in);
-		System.out.print("Create Username:");
+		System.out.println("Create Username:");
         String newUsername = keyboardIn.nextLine();
-        System.out.print("Password:");
+        System.out.println("Password:");
         String newPassword = keyboardIn.nextLine();
-        keyboardIn.close();
-        
         username = newUsername;
         password = newPassword;
         
@@ -59,12 +58,11 @@ public class UserLogin {
 	}
 
 	private boolean login() {
-		Scanner keyboardIn = new Scanner(System.in);
-		System.out.print("Username:");
+		System.out.println("Username:");
         String usernameInput = keyboardIn.nextLine();
-        System.out.print("Password:");
+        
+        System.out.println("Password:");
         String passwordInput = keyboardIn.nextLine();
-        keyboardIn.close();
         
         if(usernameInput == username && passwordInput == password) {
         		System.out.println(display());

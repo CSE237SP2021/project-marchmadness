@@ -2,11 +2,11 @@ package marchMadnessBracket;
 
 public class viewOtherBrackets {
 	//instantiate users and bracket
-	User bracketUser = new User();
+	User bracketUser = new User("Test");
 	
 	Bracket bracketToShow = new Bracket();
 	
-	public Bracket viewOtherBrackets(User toViewUser){
+	public void viewOtherBrackets(User toViewUser){
 		bracketUser = toViewUser;
 		
 		bracketToShow = bracketUser.getBracket();

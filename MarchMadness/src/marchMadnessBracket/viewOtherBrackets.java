@@ -6,10 +6,10 @@ public class viewOtherBrackets {
 	
 	Bracket bracketToShow = new Bracket();
 	
-	public void viewOtherBrackets(User toViewUser){
+	public String viewBracket(User toViewUser){
 		bracketUser = toViewUser;
 		
 		bracketToShow = bracketUser.getBracket();
-		bracketToShow.displayBracket();
+		return bracketToShow.displayBracket();
 	}
 }

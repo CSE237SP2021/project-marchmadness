@@ -19,6 +19,10 @@ public class User {
 		return bracket;
 	}
 	
+	public void setBracket() {
+		bracket.setBracket();
+	}
+	
 	public void makePick(Matchup game, Team pick) {
 		picks.put(game, pick);
 	}

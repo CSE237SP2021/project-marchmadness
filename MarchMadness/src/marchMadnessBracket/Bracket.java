@@ -1,7 +1,7 @@
 package marchMadnessBracket;
 
 public class Bracket {
-	
+	int created = 0;
 	Region[] regions;
 	public Bracket() {
 		regions = new Region[4];
@@ -11,11 +11,11 @@ public class Bracket {
 		regions[3]=new Region("Midwest");
 	}
 	
-	public static void main(String[] args) {
-		System.out.println("hello world");
+	public String displayBracket() {
+		return "displayed bracket";
 	}
 	
-	public void displayBracket() {
-		
+	public void setBracket() {
+		created = 24;
 	}
 }

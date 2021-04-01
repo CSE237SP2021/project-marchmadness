@@ -15,6 +15,15 @@ public class User {
 		picks=new HashMap<Matchup,Team>();
 	}
 	
+	// add login and createNewUser methods here?
+	
+	// should this be a void method or return a User?
+	public void login() {
+		// login logic
+		// if successful, print success message
+		// else print password incorrect or username not found
+	}
+	
 	public Bracket getBracket() {
 		return bracket;
 	}

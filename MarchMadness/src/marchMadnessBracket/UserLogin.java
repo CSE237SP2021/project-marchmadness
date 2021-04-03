@@ -1,98 +1,120 @@
 package marchMadnessBracket;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class UserLogin {
 	
-	private static String username;
-	private static String password;
 	private static Scanner keyboardIn;
 
-	public UserLogin(String u, String p) {
+	public UserLogin() {
 		super();
-		this.username = u;
-		this.password = p;
-		Scanner keyboardIn = new Scanner(System.in);
 	}
 
 	public static void main(String args[]) {
 		
-		UserLogin Obj = new UserLogin(username, password);
+		Scanner keyboardIn = new Scanner(System.in);
 		
-		
-		
-		//while (true) {
+		UserLogin Obj = new UserLogin();
+
+		while (true) {
 			String option = Obj.welomePage();
 	        
 	        if (option.equals("1")) {
 	        		Obj.register();
-	        		//break;
+	        		continue;
 	        }
 	        else if (option.equals("2")) {
 	        		Obj.login();
-	        		//break;
+	        		break;
 	        }
 	        else {
 	        		System.out.println("Wrong input. Please re-enter your choice.");
-	        		//continue;
+	        		continue;
 	        }
-		//}
+		}
 		
 	}
 	
 	private String welomePage() {
 		System.out.println("Welcome! Please select the following options: 1. Register 2. Log In");
-        String option = keyboardIn.nextLine();
+		Scanner keyboardIn = new Scanner(System.in);
+        String option = keyboardIn.next();
 		return option;
 	}
 	
 	private boolean register() {
 		System.out.println("Create Username:");
-        String newUsername = keyboardIn.nextLine();
+		Scanner newUserNameKeyboardIn = new Scanner(System.in);
+        String newUsername = newUserNameKeyboardIn.nextLine();
         System.out.println("Password:");
-        String newPassword = keyboardIn.nextLine();
-        username = newUsername;
-        password = newPassword;
+        Scanner newPasswordKeyboardIn = new Scanner(System.in);
+        String newPassword = newPasswordKeyboardIn.nextLine();
+        
+        try {
+            FileWriter loginInfoWriter = new FileWriter("./src/marchMadnessBracket/LoginInfo", true);
+            loginInfoWriter.write("\n");
+            loginInfoWriter.write("Username: " + newUsername);
+            loginInfoWriter.write(" & ");
+            loginInfoWriter.write("Password: " + newPassword);
+            loginInfoWriter.close();
+            System.out.println("Successfully registered.");
+          } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+          }
         
         return true;
 	}
 
 	private boolean login() {
 		System.out.println("Username:");
-        String usernameInput = keyboardIn.nextLine();
+		Scanner usernameKeyboardIn = new Scanner(System.in);
+        String usernameInput = usernameKeyboardIn.nextLine();
         
         System.out.println("Password:");
-        String passwordInput = keyboardIn.nextLine();
+        Scanner passwordKeyboardIn = new Scanner(System.in);
+        String passwordInput = passwordKeyboardIn.nextLine();
         
-        if(usernameInput == username && passwordInput == password) {
-        		System.out.println(display());
-        		return true;
+        File loginFile = new File("./src/marchMadnessBracket/LoginInfo"); 
+        boolean loginSuccess = false;
+        
+        try {
+        	Scanner scanner = new Scanner(loginFile);
+        	while (scanner.hasNextLine()) {
+
+            	String loginTest = scanner.nextLine(); 
+            	String[] parts = loginTest.split(" & ");
+            	String username = parts[0];
+            	String password = parts[1];
+            	
+               
+               if(username.equals("Username: " + usernameInput) && password.equals("Password: " + passwordInput)) { 
+                   System.out.println(display());
+                   loginSuccess = true;
+                   break;
+               }
+            }
+        	
+        	
+        } catch (FileNotFoundException e) {
+        System.out.println("An error occurred.");
+        e.printStackTrace();
         }
-        else {
-        		System.out.println("Incorrect username or password, try again.");
-        		return false;
+        
+        if (loginSuccess == false) {
+        	System.out.println("Incorrect Login Info.");
         }
+        
+        return true;
         
 	}
 
 	private String display() {
 		return ("Login Success");
-	}
-	
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 		
 }

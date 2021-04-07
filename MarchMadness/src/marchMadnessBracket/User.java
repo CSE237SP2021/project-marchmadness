@@ -28,8 +28,9 @@ public class User {
 		return bracket;
 	}
 	
-	public void setBracket() {
-		bracket.setBracket();
+	public void generateBracket() {
+		CreateBracket Obj = new CreateBracket();
+		boolean works = Obj.createBracket();
 	}
 	
 	public void makePick(Matchup game, Team pick) {

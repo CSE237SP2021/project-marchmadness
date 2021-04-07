@@ -20,4 +20,7 @@ public class Team {
 	public String toString() {
 		return this.rank+". "+this.name;
 	}
+	
+	
 }
+

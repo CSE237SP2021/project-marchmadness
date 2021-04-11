@@ -13,6 +13,13 @@ public class Matchup {
 		this.winner=0;
 	}
 	
+	public Matchup() {
+		this.team1=null;
+		this.team2=null;
+		this.hasPlayed=false;
+		this.winner=0;
+	}
+	
 	private Team getWinner() {
 		if(this.winner==1) {
 			return this.team1;
@@ -36,6 +43,15 @@ public class Matchup {
 			return getWinner().toString()+" beat "+getLoser().toString();
 		}
 		return team1.toString()+" vs. "+team2.toString();
+	}
+	
+	public String toString() {
+		
+		String game="";
+		game+=team1==null?"\n":team1.toString();
+		game+="\n";
+		game+=team2==null?"\n":team2.toString();
+		return game;
 	}
 	
 }

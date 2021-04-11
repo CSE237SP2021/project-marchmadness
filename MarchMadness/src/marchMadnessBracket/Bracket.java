@@ -1,48 +1,36 @@
 package marchMadnessBracket;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Bracket {
-	private Region[] regions;
+	int rounds = 0;
+	HashMap<String,Region> regions;
+	Matchup[] finals;
 	public Bracket() {
-		regions = new Region[4];
-		regions[0]=new Region("West");
-		regions[1]=new Region("East");
-		regions[2]=new Region("South");
-		regions[3]=new Region("Midwest");
+		regions = new HashMap<String,Region>();
+		regions.put("East", new Region("East"));
+		regions.put("West", new Region("West"));
+		regions.put("South", new Region("South"));
+		regions.put("Midwest", new Region("Midwest"));
+		finals=new Matchup[3];
+		
 	}
 	
-	public String displayBracket() {
-		return "displayed bracket";
+	public String toString() {
+		String printBracket = "";
+		for(int round=0;round<rounds;round++) {
+			for(Map.Entry<String,Region> entry:regions.entrySet()) {
+				Region region=entry.getValue();
+				printBracket = printBracket + region.toString(round+1);
+			}
+		}
+		
+		/*for(Matchup game: finals) {
+			printBracket = printBracket + game + "\n\n";
+		}*/
+		return printBracket;
 	}
 	
-	public Region getRegion(String regionName) {
-		if(regionName.equals("West")) {
-			return regions[0];
-		}
-		else if(regionName.equals("East")) {
-			return regions[1];
-		}
-		else if(regionName.equals("South")) {
-			return regions[2];
-		}
-		else if(regionName.equals("Midwest")) {
-			return regions[3];
-		}
-		return null;
-	}
 	
-	public Region getRegion(int regionNum) {
-		if(regionNum == 0) {
-			return regions[0];
-		}
-		else if(regionNum == 1) {
-			return regions[1];
-		}
-		else if(regionNum == 2) {
-			return regions[2];
-		}
-		else if(regionNum == 3) {
-			return regions[3];
-		}
-		return null;
-	}
 }

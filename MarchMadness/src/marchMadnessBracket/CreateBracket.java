@@ -52,29 +52,28 @@ public class CreateBracket {
 	public boolean createBracket() {
 		System.out.println("Enter a Bracket Name:");
 		Scanner newBracketKeyboardIn = new Scanner(System.in);
-        String bracketName = newBracketKeyboardIn.nextLine();
-        String filePathString = "./src/marchMadnessBracket/Bracket/"+bracketName;
+        String bracketName = newBracketKeyboardIn.next();
+        String filePathString = "./src/brackets/"+bracketName;
         File f = new File(filePathString);
         if(f.exists() && !f.isDirectory()) { 
         	System.out.println("Bracket with this name already exists.");
+        	newBracketKeyboardIn.close();
             return false;
         }
-        
+        bracket = new Bracket();
         Bracket newBracket = setTeams();
         outputFile(filePathString, newBracket);
-        System.out.println("Successfully created.");
-        bracket = new Bracket();
         
+        newBracketKeyboardIn.close();
         return true;
 	}
 	
 	private Bracket setTeams() {
 		File teamFile = new File("./src/marchMadnessBracket/Teams"); 
-        boolean bracketSuccess = false;
         String region = "West";
-        
+        Scanner scanner;
         try {
-        	Scanner scanner = new Scanner(teamFile);
+        	scanner = new Scanner(teamFile);
         	while (scanner.hasNextLine()) {
 
             	String loginTest = scanner.nextLine(); 
@@ -94,11 +93,10 @@ public class CreateBracket {
             	else {
             		for(int i = 0; i < parts.length/2; i++) {
             			Team team1 = new Team(parts[i], i+1);
-            			Team team2 = new Team(parts[parts.length-i-1], parts.length-i-1);
+            			Team team2 = new Team(parts[parts.length-i-1], parts.length-i);
             			Matchup matchup = new Matchup(team1, team2);
-            			System.out.println(region);
-            			System.out.println(bracket.getRegion(region).toString());
-            			bracket.getRegion(region).addMatchup(matchup);
+            			bracket.regions.get(region).addMatchup(matchup, 1);
+            			bracket.rounds++;
             		}
             	}
             }
@@ -108,26 +106,30 @@ public class CreateBracket {
         e.printStackTrace();
         return null;
         }
+        scanner.close();
         return bracket;
 	}
 	
 	private void outputFile(String pathString, Bracket bracket) {
 		try {
             FileWriter loginInfoWriter = new FileWriter(pathString, true);
-            for(int i = 0; i < 4; i++) {
+            /*for(int i = 0; i < 4; i++) {
             	Region region = bracket.getRegion(i);
             	loginInfoWriter.write("\n");
                 loginInfoWriter.write(region.getName()+"\n");
                 loginInfoWriter.write(region.toString());
                 loginInfoWriter.write("\n");
                 loginInfoWriter.close();
-            }
+            }*/
+            loginInfoWriter.write(bracket.toString());
+            loginInfoWriter.close();
             
             System.out.println("Successfully created bracket file.");
           } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred here.");
             e.printStackTrace();
           }
+		keyboardIn.close();
 	}
 	
 	public boolean modifyBracket() {
@@ -148,18 +150,25 @@ public class CreateBracket {
         File f = new File(filePathString);
         if(!(f.exists() && !f.isDirectory())) { 
         	System.out.println("Bracket does not exist");
+        	bracketKeyboardIn.close();
             return false;
         }
-        
+        FileWriter bracketWriter;
         try {
-            FileWriter bracketWriter = new FileWriter(filePathString, true);
+            bracketWriter = new FileWriter(filePathString, true);
             
           } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
+            bracketKeyboardIn.close();
             return false;
           }
-        
+        bracketKeyboardIn.close();
+        try {
+			bracketWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         return true;
 	}
 	

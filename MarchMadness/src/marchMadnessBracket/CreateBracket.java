@@ -71,8 +71,9 @@ public class CreateBracket {
         }
         bracket = new Bracket();
         Bracket newBracket = setTeams();
-        outputFile(filePathString, newBracket);
-        
+        if(newBracket!=null) {
+        	outputFile(filePathString, newBracket);
+        }
         //newBracketKeyboardIn.close();
         return true;
 	}

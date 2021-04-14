@@ -39,14 +39,14 @@ public class UserLogin {
 		
 	}
 	
-	private String welomePage() {
+	protected String welomePage() {
 		System.out.println("Welcome! Please select the following options: 1. Register 2. Log In");
 		Scanner keyboardIn = new Scanner(System.in);
         String option = keyboardIn.next();
 		return option;
 	}
 	
-	private boolean register() {
+	protected boolean register() {
 		System.out.println("Create Username:");
 		Scanner newUserNameKeyboardIn = new Scanner(System.in);
         String newUsername = newUserNameKeyboardIn.nextLine();
@@ -70,7 +70,7 @@ public class UserLogin {
         return true;
 	}
 
-	private boolean login() {
+	protected boolean login() {
 		System.out.println("Username:");
 		Scanner usernameKeyboardIn = new Scanner(System.in);
         String usernameInput = usernameKeyboardIn.nextLine();

@@ -3,14 +3,34 @@ package marchMadnessBracket;
 public class RunProgram {
 	public static void main(String args[]) {
 		
-		CreateBracket Obj = new CreateBracket();
+		CreateBracket bracketCreate = new CreateBracket();
 		boolean quit=false;
+		
+		UserLogin login = new UserLogin();
+		boolean loggedIn=false;
 
-		while (!quit) {
-			String option = Obj.displayOptions();
+		while (!loggedIn) {
+			String option = login.welomePage();
 	        
 	        if (option.equals("1")) {
-	        		Obj.createBracket();
+	        		login.register();
+	        		continue;
+	        }
+	        else if (option.equals("2")) {
+	        		loggedIn=login.login();
+	        		break;
+	        }
+	        else {
+	        		System.out.println("Wrong input. Please re-enter your choice.");
+	        		continue;
+	        }
+		}
+
+		while (!quit) {
+			String option = bracketCreate.displayOptions();
+	        
+	        if (option.equals("1")) {
+	        	bracketCreate.createBracket();
 	        		continue;
 	        }
 	        /*else if (option.equals("2")) {
@@ -21,14 +41,14 @@ public class RunProgram {
 	        	quit = true;
 	        }
 	        else if(option.equals("4")) {
-	        	Obj.viewBracket();
+	        	bracketCreate.viewBracket();
 	        }
 	        else {
 	        		System.out.println("Wrong input. Please re-enter your choice.");
 	        		continue;
 	        }
 		}
-		Obj.close();
+		bracketCreate.close();
 		System.out.println("Thanks for participating!");
 	}
 	

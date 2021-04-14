@@ -18,7 +18,7 @@ public class RunProgram {
 	        }
 	        else if (option.equals("2")) {
 	        		loggedIn=login.login();
-	        		break;
+	        		continue;
 	        }
 	        else {
 	        		System.out.println("Wrong input. Please re-enter your choice.");

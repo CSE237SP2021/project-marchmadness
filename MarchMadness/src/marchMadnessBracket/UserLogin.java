@@ -107,6 +107,7 @@ public class UserLogin {
         
         if (loginSuccess == false) {
         	System.out.println("Incorrect Login Info.");
+        	return false;
         }
         
         return true;

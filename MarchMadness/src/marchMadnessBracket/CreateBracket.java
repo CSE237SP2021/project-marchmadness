@@ -50,6 +50,7 @@ public class CreateBracket {
 		//Obj.close();
 	}
 	
+	//Bracket InterFace
 	private String displayOptions() {
 		//System.out.println("Please select the following options: 1. Create a Bracket");
 		System.out.println("Please select the following options: 1. Create a Bracket, 2. Modify a Bracket, 3. Quit, 4. View Bracket");
@@ -61,6 +62,7 @@ public class CreateBracket {
 		return option;
 	}
 	
+	//Generate new Bracket
 	public boolean createBracket() {
 		System.out.println("Enter a Bracket Name:");
 		//Scanner newBracketKeyboardIn = new Scanner(System.in);
@@ -75,10 +77,11 @@ public class CreateBracket {
         bracket = new Bracket();
         Bracket newBracket = setTeams();
         outputFile(filePathString, newBracket);
-        modifyBracket(bracketName);
+        //modifyBracket(bracketName);
         return true;
 	}
 	
+	//Helper function to set teams to use in new bracket, extracted from Teams file. 
 	private Bracket setTeams() {
 		File teamFile = new File("./src/marchMadnessBracket/Teams"); 
         String region = "West";
@@ -109,6 +112,8 @@ public class CreateBracket {
             			teams[i] = team1;
             		}
             		Matchup[] matchups = new Matchup[8];
+            		
+            		//order that normal bracket plays
             		matchups[0] = new Matchup(teams[0], teams[15]);
             		matchups[1] = new Matchup(teams[7], teams[8]);
             		matchups[2] = new Matchup(teams[4], teams[11]);
@@ -133,6 +138,7 @@ public class CreateBracket {
         return bracket;
 	}
 	
+	//output new bracket into bracket folder
 	private void outputFile(String pathString, Bracket bracket) {
 		try {
             FileWriter loginInfoWriter = new FileWriter(pathString, true);
@@ -155,7 +161,8 @@ public class CreateBracket {
 
 	}
 	
-	public String pickModifyBracket() {
+	//ask user for which bracket to modify
+	private String pickModifyBracket() {
 		String path = "./src/brackets";
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
@@ -173,6 +180,7 @@ public class CreateBracket {
         return bracketName;
 	}
 	
+	//reset bracket and ask user to choose winners for each match
 	public Bracket modifyBracket(String bracketName) {
         String filePathString = "./src/brackets/"+bracketName;
         File f = new File(filePathString);
@@ -198,6 +206,7 @@ public class CreateBracket {
         return bracket;
 	}
 	
+	//read bracket from file
 	private Bracket readBracket(String bracketName) {
 		boolean flag = true;
 		bracket = new Bracket();
@@ -254,6 +263,7 @@ public class CreateBracket {
         return bracket;
 	}
 	
+	//helper function to read matchups from file
 	private Matchup[] readMatchups(Scanner scanner, int amountTeams) {
 		int amountMatchups = amountTeams/2;
 		Matchup[] matchups = new Matchup[amountMatchups];
@@ -270,6 +280,7 @@ public class CreateBracket {
 		return matchups;
 	}
 	
+	//ask user to choose winners
 	private Bracket getPicks(Bracket bracket) {
 		Scanner winnerIn = new Scanner(System.in);
 		String[] regions = {"West", "East", "South", "Midwest"};
@@ -277,11 +288,15 @@ public class CreateBracket {
 		Team[] finalFourTeams = new Team[4];
 		int countTeams = 0;
 		Matchup[] finals = new Matchup[3];
+		
+		//each round after the first
 		for(int round = 2; round <= 4; round++) {
 			System.out.println("\nWho will win? Type in 1 (first team) or 2 (second team):\n\n");
 			for(int i = 0; i < 4; i++) {
 				System.out.println("\n\n\n"+regions[i]+":\tRound " + (round-1)+ "\n");
 				Region region = bracket.regions.get(regions[i]);
+				
+				//extract matchups from region arraylist
 				ArrayList<Matchup> arraylist = region.getMatchups(round-1);
 				int counter = 0;
 				for(Matchup game:arraylist) {
@@ -299,9 +314,12 @@ public class CreateBracket {
 						counter++;
 					}
 				}
+				
+				//create new matchups in the next round from this round
 				counter= 0;
 				Team temp = null;
 				for(Matchup game:gameList) {
+					//input winner
 					System.out.println(game.getInfo());
 					
 					String inputWinner = winnerIn.next();
@@ -329,6 +347,8 @@ public class CreateBracket {
 				}
 			}
 		}
+		
+		//elite eight, round 4, separate because has no "next" round in the region
 		for(int i = 0; i < 4; i++) {
 			Region region = bracket.regions.get(regions[i]);
 			Matchup game = new Matchup(eliteEightTeams[i], eliteEightTeams[i+1]);
@@ -341,6 +361,8 @@ public class CreateBracket {
 	        finalFourTeams[i] = game.getWinner();
 			
 		}
+		
+		//final four matches
 		bracket.finalFour[0] = new Matchup(finalFourTeams[0], finalFourTeams[1]);
 		bracket.finalFour[1] = new Matchup(finalFourTeams[2], finalFourTeams[3]);
 		System.out.println("\n\n\nFinalFour:\n");
@@ -356,6 +378,7 @@ public class CreateBracket {
         bracket.finalFour[1] = bracket.finalFour[1].pickWinner(option);
         Team finalist2 = bracket.finalFour[1].getWinner();
         
+        //championship match
         bracket.championship = new Matchup(finalist1, finalist2);
         
         System.out.println("\n\n\nChampionship:\n");
@@ -363,6 +386,8 @@ public class CreateBracket {
 		inputWinner = winnerIn.next();
         option = Integer.parseInt(inputWinner);
         bracket.championship = bracket.championship.pickWinner(option);
+        
+        //winner
         bracket.winner = bracket.championship.getWinner();
         
 		return bracket;
@@ -372,6 +397,7 @@ public class CreateBracket {
 		this.input.close();
 	}
 	
+	//view bracket from file
 	public boolean viewBracket() {
 		System.out.println("What is the name of the bracket you would like to view");
 		String name = input.next();

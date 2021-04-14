@@ -48,7 +48,7 @@ public class CreateBracket {
 		//Obj.close();
 	}
 	
-	private String displayOptions() {
+	protected String displayOptions() {
 		//System.out.println("Please select the following options: 1. Create a Bracket");
 		System.out.println("Please select the following options: 1. Create a Bracket, 2. Modify a Bracket, 3. Quit, 4. View Bracket");
 		//Scanner keyboardIn = new Scanner(System.in);

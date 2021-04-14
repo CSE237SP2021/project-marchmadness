@@ -15,7 +15,6 @@ public class CreateBracket {
 		input=new Scanner(System.in);
 	}
 
-	//public static void bracketOptions() {
 	public static void main(String args[]) {
 		
 		
@@ -45,19 +44,23 @@ public class CreateBracket {
 	        		continue;
 	        }
 		}
-		//Obj.close();
+		Obj.close();
 	}
 	
+	/**
+	 * A function that displays a users options then returns their choice
+	 * @return the choice of the user
+	 */
 	protected String displayOptions() {
-		//System.out.println("Please select the following options: 1. Create a Bracket");
 		System.out.println("Please select the following options: 1. Create a Bracket, 2. Modify a Bracket, 3. Quit, 4. View Bracket");
-		//Scanner keyboardIn = new Scanner(System.in);
         String option = this.input.next();
-        //input.nextLine();
-        //keyboardIn.close();
 		return option;
 	}
 	
+	/**
+	 * Prompts the user for the name of the bracket and then creates a bracket with that name if one does not already exist
+	 * @return true if it is successfully created, false otherwise
+	 */
 	public boolean createBracket() {
 		System.out.println("Enter a Bracket Name:");
 		//Scanner newBracketKeyboardIn = new Scanner(System.in);
@@ -78,6 +81,10 @@ public class CreateBracket {
         return true;
 	}
 	
+	/**
+	 * Creates a bracket object from the original teams
+	 * @return the bracket object created
+	 */
 	private Bracket setTeams() {
 		File teamFile = new File("./src/marchMadnessBracket/Teams"); 
         String region = "West";
@@ -119,6 +126,11 @@ public class CreateBracket {
         return bracket;
 	}
 	
+	/**
+	 * Writes the bracket to a file at the path
+	 * @param pathString the path to the file to write the bracket
+	 * @param bracket the bracket to write
+	 */
 	private void outputFile(String pathString, Bracket bracket) {
 		try {
             FileWriter loginInfoWriter = new FileWriter(pathString, true);
@@ -141,6 +153,10 @@ public class CreateBracket {
 		//keyboardIn.close();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean modifyBracket() {
 		String path = "./src/marchMadnessBracket/Bracket";
 		File folder = new File(path);
@@ -181,10 +197,17 @@ public class CreateBracket {
         return true;
 	}
 	
+	/**
+	 * closes the scanner when done
+	 */
 	public void close() {
 		this.input.close();
 	}
 	
+	/**
+	 * prints the content of the bracket file with the inputed name
+	 * @return true if it successfully found, false otherwise
+	 */
 	public boolean viewBracket() {
 		System.out.println("What is the name of the bracket you would like to view");
 		String name = input.next();
@@ -194,6 +217,7 @@ public class CreateBracket {
 			while(bracketReader.hasNextLine()) {
 				System.out.println(bracketReader.nextLine());
 			}
+			bracketReader.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println("No bracket found");

@@ -20,6 +20,9 @@ public class Matchup {
 		this.winner=0;
 	}
 	
+	/**
+	 * @return the team that is the winner and null if there is no winner
+	 */
 	private Team getWinner() {
 		if(this.winner==1) {
 			return this.team1;
@@ -29,6 +32,9 @@ public class Matchup {
 		return null;
 	}
 	
+	/**
+	 * @return the team that is the loser and null if there is no loser
+	 */
 	private Team getLoser() {
 		if(this.winner==1) {
 			return this.team2;
@@ -38,6 +44,9 @@ public class Matchup {
 		return null;
 	}
 	
+	/**
+	 * @return the matchup if it has not been played or the result
+	 */
 	public String getInfo() {
 		if(this.hasPlayed) {
 			return getWinner().toString()+" beat "+getLoser().toString();

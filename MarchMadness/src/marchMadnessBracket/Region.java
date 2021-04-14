@@ -20,7 +20,11 @@ public class Region {
 		}
 	}
 	
-
+	/**
+	 * returns a string representing a given round
+	 * @param round which round to return
+	 * @return all the matchups of the round
+	 */
 	public String toString(int round) {
 		String printRegion = "";
 		if(round>=rounds.length) {

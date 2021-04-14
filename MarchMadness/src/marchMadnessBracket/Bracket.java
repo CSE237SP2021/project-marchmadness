@@ -19,7 +19,9 @@ public class Bracket {
 		
 	}
 	
-
+	/**
+	 * @return the string representing all the rounds of each region
+	 */
 	public String toString() {
 		String printBracket = "";
 		for(int round=0;round<rounds;round++) {

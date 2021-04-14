@@ -8,21 +8,22 @@ import java.util.Scanner;
 
 public class CreateBracket {
 	
-	private static Scanner keyboardIn;
 	private Bracket bracket;
+	private Scanner input;
 
 	public CreateBracket() {
-		super();
+		input=new Scanner(System.in);
 	}
 
 	//public static void bracketOptions() {
 	public static void main(String args[]) {
 		
-		Scanner keyboardIn = new Scanner(System.in);
+		
 		
 		CreateBracket Obj = new CreateBracket();
+		boolean quit=false;
 
-		while (true) {
+		while (!quit) {
 			String option = Obj.displayOptions();
 	        
 	        if (option.equals("1")) {
@@ -33,38 +34,46 @@ public class CreateBracket {
 	        		Obj.modifyBracket();
 	        		break;
 	        }*/
+	        else if(option.equals("3")) {
+	        	quit = true;
+	        }
+	        else if(option.equals("4")) {
+	        	Obj.viewBracket();
+	        }
 	        else {
 	        		System.out.println("Wrong input. Please re-enter your choice.");
 	        		continue;
 	        }
 		}
-		
+		//Obj.close();
 	}
 	
 	private String displayOptions() {
-		System.out.println("Please select the following options: 1. Create a Bracket");
-		//System.out.println("Please select the following options: 1. Create a Bracket 2. Modify a Bracket");
-		Scanner keyboardIn = new Scanner(System.in);
-        String option = keyboardIn.next();
+		//System.out.println("Please select the following options: 1. Create a Bracket");
+		System.out.println("Please select the following options: 1. Create a Bracket, 2. Modify a Bracket, 3. Quit, 4. View Bracket");
+		//Scanner keyboardIn = new Scanner(System.in);
+        String option = this.input.next();
+        //input.nextLine();
+        //keyboardIn.close();
 		return option;
 	}
 	
 	public boolean createBracket() {
 		System.out.println("Enter a Bracket Name:");
-		Scanner newBracketKeyboardIn = new Scanner(System.in);
-        String bracketName = newBracketKeyboardIn.next();
+		//Scanner newBracketKeyboardIn = new Scanner(System.in);
+        String bracketName = input.next();
         String filePathString = "./src/brackets/"+bracketName;
         File f = new File(filePathString);
         if(f.exists() && !f.isDirectory()) { 
         	System.out.println("Bracket with this name already exists.");
-        	newBracketKeyboardIn.close();
+        	//newBracketKeyboardIn.close();
             return false;
         }
         bracket = new Bracket();
         Bracket newBracket = setTeams();
         outputFile(filePathString, newBracket);
         
-        newBracketKeyboardIn.close();
+        //newBracketKeyboardIn.close();
         return true;
 	}
 	
@@ -96,17 +105,16 @@ public class CreateBracket {
             			Team team2 = new Team(parts[parts.length-i-1], parts.length-i);
             			Matchup matchup = new Matchup(team1, team2);
             			bracket.regions.get(region).addMatchup(matchup, 1);
-            			bracket.rounds++;
             		}
             	}
             }
-        	
+        	scanner.close();
         } catch (FileNotFoundException e) {
         System.out.println("An error occurred.");
         e.printStackTrace();
         return null;
         }
-        scanner.close();
+        
         return bracket;
 	}
 	
@@ -129,7 +137,7 @@ public class CreateBracket {
             System.out.println("An error occurred here.");
             e.printStackTrace();
           }
-		keyboardIn.close();
+		//keyboardIn.close();
 	}
 	
 	public boolean modifyBracket() {
@@ -172,6 +180,24 @@ public class CreateBracket {
         return true;
 	}
 	
+	public void close() {
+		this.input.close();
+	}
 	
-		
+	public boolean viewBracket() {
+		System.out.println("What is the name of the bracket you would like to view");
+		String name = input.next();
+		String filePathString = "./src/brackets/"+name;
+		try {
+			Scanner bracketReader=new Scanner(new File(filePathString));
+			while(bracketReader.hasNextLine()) {
+				System.out.println(bracketReader.nextLine());
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("No bracket found");
+			e.printStackTrace();
+		}
+		return true;
+	}
 }

@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Bracket {
+
 	final public static int rounds = 4;
+
 	HashMap<String,Region> regions;
 	Matchup[] finals;
 	public Bracket() {
@@ -17,6 +19,7 @@ public class Bracket {
 		
 	}
 	
+
 	public String toString() {
 		String printBracket = "";
 		for(int round=0;round<rounds;round++) {

@@ -20,6 +20,10 @@ public class Region {
 		}
 	}
 	
+	public ArrayList<Matchup> getMatchups(int round) {
+		return rounds[round];
+	}
+	
 	public String toString(int round) {
 		String printRegion = "";
 		if(round>=rounds.length) {

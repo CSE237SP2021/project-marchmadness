@@ -20,15 +20,18 @@ public class Region {
 		}
 	}
 	
-	public void printRound(int round) {
+
+	public String toString(int round) {
+		String printRegion = "";
 		if(round>=rounds.length) {
-			System.out.println("Enter a valid round");
-			return;
+			//System.out.println("Enter a valid round");
+			return printRegion;
 		}
-		System.out.println(this.name+": Round "+round);
+		printRegion = printRegion + this.name+": Round "+round + "\n"; 
 		for(Matchup game:rounds[round]) {
-			System.out.println(game);
-			System.out.println();
+			printRegion = printRegion + game + "\n\n";
 		}
+		return printRegion;
+
 	}
 }

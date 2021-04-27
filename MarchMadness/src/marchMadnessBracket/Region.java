@@ -27,12 +27,12 @@ public class Region {
 	 */
 	public String toString(int round) {
 		String printRegion = "";
-		if(round>=rounds.length) {
+		if(round>rounds.length) {
 			//System.out.println("Enter a valid round");
 			return printRegion;
 		}
 		printRegion = printRegion + this.name+": Round "+round + "\n"; 
-		for(Matchup game:rounds[round]) {
+		for(Matchup game:rounds[round-1]) {
 			printRegion = printRegion + game + "\n\n";
 		}
 		return printRegion;

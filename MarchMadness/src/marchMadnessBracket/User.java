@@ -25,9 +25,4 @@ public class User {
 	public Bracket getBracket() {
 		return bracket;
 	}
-	
-	public void generateBracket() {
-		CreateBracket Obj = new CreateBracket();
-		boolean works = Obj.createBracket();
-	}
 }

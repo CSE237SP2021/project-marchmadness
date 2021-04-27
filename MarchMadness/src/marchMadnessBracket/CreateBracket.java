@@ -13,10 +13,11 @@ public class CreateBracket {
 	private Scanner input;
 
 	public CreateBracket() {
-		input=new Scanner(System.in);
+		input = new Scanner(System.in);
 	}
 
 	public static void main(String args[]) {
+
 
 
 
@@ -106,6 +107,7 @@ public class CreateBracket {
 			scanner = new Scanner(teamFile);
 			while (scanner.hasNextLine()) {
 
+
 				String teamList = scanner.nextLine(); 
 				String[] parts = teamList.split(", ");
 
@@ -153,11 +155,12 @@ public class CreateBracket {
 
 		return bracket;
 	}
-	
+
 	/**
 	 * Writes the bracket to a file at the path
+	 * 
 	 * @param pathString the path to the file to write the bracket
-	 * @param bracket the bracket to write
+	 * @param bracket    the bracket to write
 	 */
 
 	private void outputFile(String pathString, Bracket bracket) {
@@ -172,12 +175,14 @@ public class CreateBracket {
 			e.printStackTrace();
 		}
 
+
 	}
 
 
 	//ask user to pick a bracket
 	private String pickBracket() {
 		String path = "./src/brackets";
+
 
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
@@ -187,6 +192,7 @@ public class CreateBracket {
 				System.out.println(listOfFiles[i].getName());
 			}
 		}
+
 
 		System.out.println("\nChoose a Bracket:");
 		Scanner bracketKeyboardIn = new Scanner(System.in);
@@ -262,9 +268,11 @@ public class CreateBracket {
 
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
+
 			e.printStackTrace();
 			return null;
 		}
+
 		scanner.close();
 		return bracket;
 	}
@@ -407,18 +415,18 @@ public class CreateBracket {
 
 		return bracket;
 	}
-
 	public void close() {
 		this.input.close();
 	}
+
 
 	//view bracket from file
 	public boolean viewBracket(String name) {
 
 		String filePathString = "./src/brackets/"+name;
 		try {
-			Scanner bracketReader=new Scanner(new File(filePathString));
-			while(bracketReader.hasNextLine()) {
+			Scanner bracketReader = new Scanner(new File(filePathString));
+			while (bracketReader.hasNextLine()) {
 				System.out.println(bracketReader.nextLine());
 			}
 			bracketReader.close();

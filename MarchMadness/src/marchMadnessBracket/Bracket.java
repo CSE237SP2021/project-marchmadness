@@ -7,10 +7,10 @@ public class Bracket {
 
 	final public static int rounds = 4;
 
-	HashMap<String,Region> regions;
-	Matchup[] finalFour;
-	Matchup championship;
-	Team winner;
+	public HashMap<String,Region> regions;
+	public Matchup[] finalFour;
+	public Matchup championship;
+	public Team winner;
 	
 	public Bracket() {
 		regions = new HashMap<String,Region>();		

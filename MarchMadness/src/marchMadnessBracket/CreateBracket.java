@@ -28,11 +28,12 @@ public class CreateBracket {
 			String option = Obj.displayOptions();
 
 			if (option.equals("1")) {
-				Obj.createBracket();
+				String bracketName = Obj.chooseBracketName();
+				Obj.createBracket(bracketName);
 				continue;
 			}
 			else if (option.equals("2")) {
-	          		String bracketName = Obj.pickModifyBracket();
+	          		String bracketName = Obj.pickBracket();
 	        		Obj.modifyBracket(bracketName);
 	        		break;
 	        }
@@ -40,7 +41,12 @@ public class CreateBracket {
 				quit = true;
 			}
 			else if(option.equals("4")) {
-				Obj.viewBracket();
+				String bracketName = Obj.pickBracket();
+				Obj.viewBracket(bracketName);
+			}
+			else if(option.equals("5")) {
+				String bracketName = Obj.pickBracket();
+				Obj.deleteBracket(bracketName);
 			}
 			else {
 				System.out.println("Wrong input. Please re-enter your choice.");
@@ -53,7 +59,7 @@ public class CreateBracket {
 	//Bracket InterFace
 	private String displayOptions() {
 		//System.out.println("Please select the following options: 1. Create a Bracket");
-		System.out.println("Please select the following options: 1. Create a Bracket, 2. Modify a Bracket, 3. Quit, 4. View Bracket");
+		System.out.println("Please select the following options: 1. Create a Bracket, 2. Modify a Bracket, 3. Quit, 4. View Bracket, 5. Delete Bracket");
 		//Scanner keyboardIn = new Scanner(System.in);
 		String option = this.input.next();
 		//input.nextLine();
@@ -62,8 +68,8 @@ public class CreateBracket {
 		return option;
 	}
 
-	//Generate new Bracket
-	public boolean createBracket() {
+	//choose name for new bracket
+	private String chooseBracketName() {
 		System.out.println("Enter a Bracket Name:");
 		//Scanner newBracketKeyboardIn = new Scanner(System.in);
 		String bracketName = input.next();
@@ -72,8 +78,17 @@ public class CreateBracket {
 		if(f.exists() && !f.isDirectory()) { 
 			System.out.println("Bracket with this name already exists.");
 			//newBracketKeyboardIn.close();
+			return "";
+		}
+		return bracketName;
+	}
+	
+	//Generate new Bracket
+	public boolean createBracket(String bracketName) {
+		if(bracketName.equals("")) {
 			return false;
 		}
+		String filePathString = "./src/brackets/"+bracketName;
 		bracket = new Bracket();
 		Bracket newBracket = setTeams();
 		outputFile(filePathString, newBracket);
@@ -153,8 +168,8 @@ public class CreateBracket {
 
 	}
 
-	//ask user for which bracket to modify
-	private String pickModifyBracket() {
+	//ask user to pick a bracket
+	private String pickBracket() {
 		String path = "./src/brackets";
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
@@ -165,7 +180,7 @@ public class CreateBracket {
 			}
 		}
 
-		System.out.println("\nEnter a Bracket to Modify:");
+		System.out.println("\nChoose a Bracket:");
 		Scanner bracketKeyboardIn = new Scanner(System.in);
 		String bracketName = bracketKeyboardIn.nextLine();
 		return bracketName;
@@ -389,9 +404,7 @@ public class CreateBracket {
 	}
 
 	//view bracket from file
-	public boolean viewBracket() {
-		System.out.println("What is the name of the bracket you would like to view");
-		String name = input.next();
+	public boolean viewBracket(String name) {
 		String filePathString = "./src/brackets/"+name;
 		try {
 			Scanner bracketReader=new Scanner(new File(filePathString));
@@ -402,6 +415,20 @@ public class CreateBracket {
 			System.out.println("No bracket found");
 			e.printStackTrace();
 		}
+		return true;
+	}
+	
+	//delete bracket
+	public boolean deleteBracket(String bracketName) {
+		String filePathString = "./src/brackets/"+bracketName;
+		File f = new File(filePathString);
+		if(!(f.exists() && !f.isDirectory())) { 
+			System.out.println("Bracket does not exist");
+			return false;
+		}
+		//bracket = readBracket(bracketName);
+
+		f.delete();
 		return true;
 	}
 }

@@ -22,8 +22,10 @@ public class Matchup {
 		this.chosenWinner=0;
 	}
 	
+
 	public Team getWinner() {
 		if(this.chosenWinner==1) {
+
 			return this.team1;
 		}else if(this.chosenWinner==2) {
 			return this.team2;
@@ -31,6 +33,9 @@ public class Matchup {
 		return null;
 	}
 	
+	/**
+	 * @return the team that is the loser and null if there is no loser
+	 */
 	private Team getLoser() {
 		if(this.chosenWinner==1) {
 			return this.team2;
@@ -39,7 +44,7 @@ public class Matchup {
 		}
 		return null;
 	}
-	
+
 	public Matchup pickWinner(int whoWins) {
 		if(whoWins == 1) {
 			chosenWinner = 1;
@@ -49,12 +54,13 @@ public class Matchup {
 		}
 		else {
 			System.out.println("Invalid Choice");
-			return null;
+			return this;
 		}
 		
 		return this;
 	}
 	
+
 	public String getInfo() {
 		if(this.hasPlayed) {
 			return getWinner().toString()+" beat "+getLoser().toString();

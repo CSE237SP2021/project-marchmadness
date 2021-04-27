@@ -16,7 +16,6 @@ public class CreateBracket {
 		input=new Scanner(System.in);
 	}
 
-	//public static void bracketOptions() {
 	public static void main(String args[]) {
 
 
@@ -53,8 +52,9 @@ public class CreateBracket {
 				continue;
 			}
 		}
-		//Obj.close();
+		Obj.close();
 	}
+
 
 	//Bracket InterFace
 	private String displayOptions() {
@@ -97,6 +97,7 @@ public class CreateBracket {
 	}
 
 	//Helper function to set teams to use in new bracket, extracted from Teams file. 
+
 	private Bracket setTeams() {
 		File teamFile = new File("./src/marchMadnessBracket/Teams"); 
 		String region = "West";
@@ -152,8 +153,13 @@ public class CreateBracket {
 
 		return bracket;
 	}
+	
+	/**
+	 * Writes the bracket to a file at the path
+	 * @param pathString the path to the file to write the bracket
+	 * @param bracket the bracket to write
+	 */
 
-	//output new bracket into bracket folder
 	private void outputFile(String pathString, Bracket bracket) {
 		try {
 			FileWriter loginInfoWriter = new FileWriter(pathString, true);
@@ -168,9 +174,11 @@ public class CreateBracket {
 
 	}
 
+
 	//ask user to pick a bracket
 	private String pickBracket() {
 		String path = "./src/brackets";
+
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
 		System.out.println("Brackets: ");
@@ -260,6 +268,7 @@ public class CreateBracket {
 		scanner.close();
 		return bracket;
 	}
+
 
 	//helper function to read matchups from file
 	private Matchup[] readMatchups(Scanner scanner, int amountTeams) {
@@ -405,12 +414,14 @@ public class CreateBracket {
 
 	//view bracket from file
 	public boolean viewBracket(String name) {
+
 		String filePathString = "./src/brackets/"+name;
 		try {
 			Scanner bracketReader=new Scanner(new File(filePathString));
 			while(bracketReader.hasNextLine()) {
 				System.out.println(bracketReader.nextLine());
 			}
+			bracketReader.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("No bracket found");
 			e.printStackTrace();

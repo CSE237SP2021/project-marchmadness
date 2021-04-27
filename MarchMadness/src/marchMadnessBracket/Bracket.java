@@ -23,7 +23,9 @@ public class Bracket {
 		winner = new Team();
 	}
 	
-
+	/**
+	 * @return the string representing all the rounds of each region
+	 */
 	public String toString() {
 		String printBracket = "";
 		for(int round=0;round<rounds-1;round++) {

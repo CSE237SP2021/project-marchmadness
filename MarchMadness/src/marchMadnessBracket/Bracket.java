@@ -29,9 +29,9 @@ public class Bracket {
 		winner = new Team();
 	}
 
-	public static int score(String user, String bracketName) {
+	public static int score(String bracketName) {
 		File truthFile = new File("./src/marchMadnessBracket/groundtruth");
-		File bracketFile = new File("./src/brackets/" + user + "-" + bracketName);
+		File bracketFile = new File("./src/brackets/" + bracketName);
 		int score = 0;
 		try {
 			Scanner truthScanner = new Scanner(truthFile);
@@ -88,7 +88,7 @@ public class Bracket {
 	}
 
 	public void addChampionship(Matchup game) {
-		this.championship=game;
+		this.championship = game;
 	}
 
 	public void addWinner(Team team) {
@@ -118,7 +118,7 @@ public class Bracket {
 			printBracket = printBracket + championship + "\n\n";
 		}
 		printBracket = printBracket + "Winner:\n";
-		if (winner != null) {
+		if (winner.getTeamname() != null) {
 			printBracket += winner.getTeamname();
 		}
 		return printBracket;

@@ -12,17 +12,22 @@ public class Bracket {
 
 	final public static int rounds = 4;
 
-	private HashMap<String, Region> regions;
-	private Matchup[] finals;
-	private Team winner;
 
+	public HashMap<String,Region> regions;
+	public Matchup[] finalFour;
+	public Matchup championship;
+	public Team winner;
+	
 	public Bracket() {
-		regions = new HashMap<String, Region>();
-		regions.put("East", new Region("East"));
+		regions = new HashMap<String,Region>();		
 		regions.put("West", new Region("West"));
+		regions.put("East", new Region("East"));
 		regions.put("South", new Region("South"));
 		regions.put("Midwest", new Region("Midwest"));
-		finals = new Matchup[3];
+
+		finalFour=new Matchup[2];
+		championship = new Matchup();
+		winner = new Team();
 	}
 
 	public static int score(String user, String bracketName) {
@@ -85,6 +90,7 @@ public class Bracket {
 	 */
 	public String toString() {
 		String printBracket = "";
+
 		for (int round = 0; round < rounds; round++) {
 			for (Map.Entry<String, Region> entry : regions.entrySet()) {
 				Region region = entry.getValue();
@@ -92,15 +98,21 @@ public class Bracket {
 			}
 		}
 		printBracket += "Final Four\n";
-		for (int i = 0; i < finals.length; i++) {
-			if (i == 2) {
-				printBracket += "Finals\n";
-			}
-			if (finals[i] != null) {
-				printBracket += finals[i] + "\n\n";
-			}
+    for(Matchup game: finalFour) {
+			if(game!=null){
+			  printBracket = printBracket + game + "\n\n";
+      }
 		}
+    printBracket += "Finals\n";
+    if(championship!=null){
+      printBracket = printBracket + championship + "\n\n";
+    }
+    printBracket = printBracket + "Winner:\n";
+    if(winner!=null){
+		  printBracket+=winner.getTeamname();
+    }
 		return printBracket;
 	}
+
 
 }

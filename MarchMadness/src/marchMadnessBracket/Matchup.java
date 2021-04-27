@@ -4,29 +4,30 @@ public class Matchup {
 	private Team team1;
 	private Team team2;
 	private boolean hasPlayed;
-	private int winner;
+	private int chosenWinner;
+	private int realWinner;
 	
 	public Matchup(Team team1,Team team2) {
 		this.team1=team1;
 		this.team2=team2;
 		this.hasPlayed=false;
-		this.winner=0;
+		this.chosenWinner=0;
+		this.realWinner=0;
 	}
 	
 	public Matchup() {
 		this.team1=null;
 		this.team2=null;
 		this.hasPlayed=false;
-		this.winner=0;
+		this.chosenWinner=0;
 	}
 	
-	/**
-	 * @return the team that is the winner and null if there is no winner
-	 */
-	private Team getWinner() {
-		if(this.winner==1) {
+
+	public Team getWinner() {
+		if(this.chosenWinner==1) {
+
 			return this.team1;
-		}else if(this.winner==2) {
+		}else if(this.chosenWinner==2) {
 			return this.team2;
 		}
 		return null;
@@ -36,17 +37,30 @@ public class Matchup {
 	 * @return the team that is the loser and null if there is no loser
 	 */
 	private Team getLoser() {
-		if(this.winner==1) {
+		if(this.chosenWinner==1) {
 			return this.team2;
-		}else if(this.winner==2) {
+		}else if(this.chosenWinner==2) {
 			return this.team1;
 		}
 		return null;
 	}
+
+	public Matchup pickWinner(int whoWins) {
+		if(whoWins == 1) {
+			chosenWinner = 1;
+		}
+		else if(whoWins == 2) {
+			chosenWinner = 2;
+		}
+		else {
+			System.out.println("Invalid Choice");
+			return this;
+		}
+		
+		return this;
+	}
 	
-	/**
-	 * @return the matchup if it has not been played or the result
-	 */
+
 	public String getInfo() {
 		if(this.hasPlayed) {
 			return getWinner().toString()+" beat "+getLoser().toString();

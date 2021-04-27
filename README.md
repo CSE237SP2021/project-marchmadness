@@ -12,8 +12,7 @@ Jeffrey Candell
 4. Currently there isn't anything to run, but you can run the tests from each file using javac and java if you would like.
 
 # Iteration 2
-1. This iteration we completed user stories to log in through a User Interface, create new brackets and output the brackets to files in a separate folder, and pick the winner of each match in a bracket.
-2. During the next iteration we will work on scoring brackets so that brackets can be compared to each other, and allow the administrator to have more control.
+1. This iteration we completed user stories to log in through a User Interface, create new brackets and output the brackets to files in a separate folder, and view your bracket and other brackets.
+2. During the next iteration we will work on making modifying brackets and scoring brackets so that brackets can be compared to each other, and allow the administrator to have more control.
 3. The modifying a bracket/picking all the winners does not work completely, there are a few bugs in it. But for the most part it works.
-4. To run the user interface, go to master branch and run: javac UserLogin.java, then java UserLogin
-   To run the bracket interface, go to createBracket branch and run: javac CreateBracket.java, then java CreateBracket
+4. To run the program simply enter the MarchMadness folder and run the run.sh script

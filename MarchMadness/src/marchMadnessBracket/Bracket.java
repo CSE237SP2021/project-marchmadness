@@ -12,20 +12,19 @@ public class Bracket {
 
 	final public static int rounds = 4;
 
-
-	public HashMap<String,Region> regions;
+	public HashMap<String, Region> regions;
 	public Matchup[] finalFour;
 	public Matchup championship;
 	public Team winner;
-	
+
 	public Bracket() {
-		regions = new HashMap<String,Region>();		
+		regions = new HashMap<String, Region>();
 		regions.put("West", new Region("West"));
 		regions.put("East", new Region("East"));
 		regions.put("South", new Region("South"));
 		regions.put("Midwest", new Region("Midwest"));
 
-		finalFour=new Matchup[2];
+		finalFour = new Matchup[2];
 		championship = new Matchup();
 		winner = new Team();
 	}
@@ -53,6 +52,8 @@ public class Bracket {
 					bracketRound++;
 				}
 				if (bracketRound != truthRound) {
+					truthScanner.close();
+					bracketScanner.close();
 					return score;
 				}
 				if (truthRound > 1 && !truthLine.contentEquals("") && !truthLine.contains("Round")
@@ -62,11 +63,14 @@ public class Bracket {
 					}
 				}
 			}
+			truthScanner.close();
+			bracketScanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 			return 0;
 		}
+
 		return score;
 	}
 
@@ -78,7 +82,13 @@ public class Bracket {
 	}
 
 	public void addFinals(Matchup game, int gameNum) {
-		finals[gameNum] = game;
+		if (gameNum < finalFour.length) {
+			finalFour[gameNum] = game;
+		}
+	}
+
+	public void addChampionship(Matchup game) {
+		this.championship=game;
 	}
 
 	public void addWinner(Team team) {
@@ -98,21 +108,20 @@ public class Bracket {
 			}
 		}
 		printBracket += "Final Four\n";
-    for(Matchup game: finalFour) {
-			if(game!=null){
-			  printBracket = printBracket + game + "\n\n";
-      }
+		for (Matchup game : finalFour) {
+			if (game != null) {
+				printBracket = printBracket + game + "\n\n";
+			}
 		}
-    printBracket += "Finals\n";
-    if(championship!=null){
-      printBracket = printBracket + championship + "\n\n";
-    }
-    printBracket = printBracket + "Winner:\n";
-    if(winner!=null){
-		  printBracket+=winner.getTeamname();
-    }
+		printBracket += "Finals\n";
+		if (championship != null) {
+			printBracket = printBracket + championship + "\n\n";
+		}
+		printBracket = printBracket + "Winner:\n";
+		if (winner != null) {
+			printBracket += winner.getTeamname();
+		}
 		return printBracket;
 	}
-
 
 }

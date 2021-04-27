@@ -20,11 +20,12 @@ public class Region {
 		}
 	}
 	
-	/**
-	 * returns a string representing a given round
-	 * @param round which round to return
-	 * @return all the matchups of the round
-	 */
+
+	public ArrayList<Matchup> getMatchups(int round) {
+		return rounds[round];
+	}
+	
+
 	public String toString(int round) {
 		String printRegion = "";
 		if(round>=rounds.length) {
@@ -32,8 +33,31 @@ public class Region {
 			return printRegion;
 		}
 		printRegion = printRegion + this.name+": Round "+round + "\n"; 
-		for(Matchup game:rounds[round]) {
-			printRegion = printRegion + game + "\n\n";
+		
+		
+		
+		if(round == 1) {
+			int counter = 0;
+			for(Matchup game:rounds[round]) {
+				counter++;
+			}
+			Matchup[] gameList = new Matchup[counter];;
+			if(round == 2) {
+				gameList = new Matchup[counter/2];
+			}
+			
+			counter = 0;
+			for(Matchup game:rounds[round]) {
+				if(counter < gameList.length) {
+					printRegion = printRegion + game + "\n\n";
+					counter++;
+				}
+			}
+		}
+		else {
+			for(Matchup game:rounds[round]) {
+				printRegion = printRegion + game + "\n\n";
+			}
 		}
 		return printRegion;
 

@@ -48,21 +48,26 @@ public class CreateBracket {
 //		Obj.close();
 	}
 
-	// Bracket InterFace
+	/**
+	 * Displays options for brackets and returns the input
+	 * 
+	 * @return the user's input
+	 */
 	public String displayOptions() {
-		// System.out.println("Please select the following options: 1. Create a
-		// Bracket");
+
 		System.out.println(
 				"Please select the following options: 1. Create a Bracket, 2. Modify a Bracket, 3. Quit, 4. View Bracket, 5. Delete Bracket");
-		// Scanner keyboardIn = new Scanner(System.in);
 		String option = this.input.next();
-		// input.nextLine();
-		// keyboardIn.close();
 
 		return option;
 	}
 
-	// choose name for new bracket
+	/**
+	 * Returns the name inputted by the user for a new bracket
+	 * 
+	 * @param user the user who is creating the bracket
+	 * @return the name of the bracket if valid, or null
+	 */
 	public String chooseBracketName(String user) {
 		System.out.println("Enter a Bracket Name:");
 		// Scanner newBracketKeyboardIn = new Scanner(System.in);
@@ -77,9 +82,15 @@ public class CreateBracket {
 		return bracketName;
 	}
 
-	// Generate new Bracket
+	/**
+	 * Asks for a name for the bracket and then creates a bare bones bracket
+	 * 
+	 * @param bracketName name of bracket being created
+	 * @param user        user creating the bracket
+	 * @return true if successful and false otherwise
+	 */
 	public boolean createBracket(String bracketName, String user) {
-		if (bracketName.equals("")) {
+		if (bracketName == null) {
 			return false;
 		}
 		String filePathString = "./src/brackets/" + user + "-" + bracketName;
@@ -92,7 +103,11 @@ public class CreateBracket {
 
 	// Helper function to set teams to use in new bracket, extracted from Teams
 	// file.
-
+	/**
+	 * Helper function to return a bare bones bracket
+	 * 
+	 * @return the bracket object with the first round teams set
+	 */
 	private Bracket setTeams() {
 		File teamFile = new File("./src/marchMadnessBracket/Teams");
 		String region = "West";
@@ -167,6 +182,13 @@ public class CreateBracket {
 	}
 
 	// ask user to pick a bracket
+	/**
+	 * Prompts user to pick a bracket with options
+	 * 
+	 * @param user the user that must be at the beginning of the filename, empty
+	 *             string if all brackets
+	 * @return the name of the bracket chosen
+	 */
 	public String pickBracket(String user) {
 		String path = "./src/brackets";
 
@@ -185,7 +207,12 @@ public class CreateBracket {
 		return bracketName;
 	}
 
-	// reset bracket and ask user to choose winners for each match
+	/**
+	 * Resets a bracket and gets all the picks
+	 * 
+	 * @param bracketName name of the bracket
+	 * @return the new bracket object
+	 */
 	public Bracket modifyBracket(String bracketName) {
 		String filePathString = "./src/brackets/" + bracketName;
 		File f = new File(filePathString);
@@ -193,7 +220,6 @@ public class CreateBracket {
 			System.out.println("Bracket does not exist");
 			return null;
 		}
-		// bracket = readBracket(bracketName);
 
 		f.delete();
 		bracket = new Bracket();
@@ -203,79 +229,13 @@ public class CreateBracket {
 		return bracket;
 	}
 
-	// read bracket from file (not used for now)
-	private Bracket readBracket(String bracketName) {
-		boolean flag = true;
-		bracket = new Bracket();
-		File bracketFile = new File("./src/brackets/" + bracketName);
-		String region = "West";
-		int round = 0;
-		Scanner scanner;
-		int amountTeams = 0;
-		try {
-			scanner = new Scanner(bracketFile);
-			while (scanner.hasNextLine()) {
-
-				String readIn = scanner.nextLine();
-				String[] titleParts = readIn.split(": Round ");
-
-				if (titleParts[0].equals("West")) {
-					region = "West";
-					flag = true;
-				} else if (titleParts[0].equals("East")) {
-					region = "East";
-					flag = true;
-				} else if (titleParts[0].equals("South")) {
-					region = "South";
-					flag = true;
-				} else if (titleParts[0].equals("Midwest")) {
-					region = "Midwest";
-					flag = true;
-				} else {
-					flag = false;
-				}
-				if (flag) {
-					round = Integer.parseInt(titleParts[1]);
-
-					amountTeams = (int) (16 / (Math.pow(2, round - 1)));
-
-					Matchup[] matchups = readMatchups(scanner, amountTeams);
-
-					for (int i = 0; i < matchups.length; i++) {
-						bracket.regions.get(region).addMatchup(matchups[i], round);
-					}
-				}
-			}
-
-		} catch (FileNotFoundException e) {
-			System.out.println("An error occurred.");
-
-			e.printStackTrace();
-			return null;
-		}
-
-		scanner.close();
-		return bracket;
-	}
-
-	// helper function to read matchups from file
-	private Matchup[] readMatchups(Scanner scanner, int amountTeams) {
-		int amountMatchups = amountTeams / 2;
-		Matchup[] matchups = new Matchup[amountMatchups];
-		for (int i = 0; i < amountMatchups; i++) {
-			String team1test = scanner.nextLine();
-			String team2test = scanner.nextLine();
-			String[] team1Info = team1test.split(". ");
-			String[] team2Info = team2test.split(". ");
-			Team team1 = new Team(team1Info[1], Integer.parseInt(team1Info[0]));
-			Team team2 = new Team(team2Info[1], Integer.parseInt(team2Info[0]));
-			matchups[i] = new Matchup(team1, team2);
-			String removeExcess = scanner.nextLine();
-		}
-		return matchups;
-	}
-
 	// ask user to choose winners
+	/**
+	 * Prompts the user through the picks for a bracket
+	 * 
+	 * @param bracket bracket to modify
+	 * @return the modified bracket
+	 */
 	private Bracket getPicks(Bracket bracket) {
 		Scanner winnerIn = new Scanner(System.in);
 		String[] regions = { "West", "East", "South", "Midwest" };
@@ -386,11 +346,20 @@ public class CreateBracket {
 		return bracket;
 	}
 
+	/**
+	 * closes the scanner
+	 */
 	public void close() {
 		this.input.close();
 	}
 
 	// view bracket from file
+	/**
+	 * displays a bracket and score of the bracket
+	 * 
+	 * @param name name of bracket to view
+	 * @return whether or not the bracket was successfully shown
+	 */
 	public boolean viewBracket(String name) {
 
 		String filePathString = "./src/brackets/" + name;
@@ -403,11 +372,16 @@ public class CreateBracket {
 			System.out.println("\nScore: " + Bracket.score(name));
 		} catch (FileNotFoundException e) {
 			System.out.println("No bracket found");
+			return false;
 		}
 		return true;
 	}
 
-	// delete bracket
+	/**
+	 * deletes a bracket
+	 * @param bracketName name of bracket to delete
+	 * @return whether the bracket was successfully deleted
+	 */
 	public boolean deleteBracket(String bracketName) {
 		String filePathString = "./src/brackets/" + bracketName;
 		File f = new File(filePathString);
@@ -415,7 +389,6 @@ public class CreateBracket {
 			System.out.println("Bracket does not exist");
 			return false;
 		}
-		// bracket = readBracket(bracketName);
 
 		if (f.delete()) {
 			System.out.println("Deleted " + bracketName);

@@ -29,11 +29,16 @@ public class Bracket {
 		winner = new Team();
 	}
 
+	/**
+	 * Scores a bracket by comparing it to the groundtruth bracket
+	 * @param bracketName name of bracket to score
+	 * @return the score of the bracket
+	 */
 	public static int score(String bracketName) {
-		File truthFile = new File("./src/marchMadnessBracket/groundtruth");
-		File bracketFile = new File("./src/brackets/" + bracketName);
 		int score = 0;
 		try {
+			File truthFile = new File("./src/marchMadnessBracket/groundtruth");
+			File bracketFile = new File("./src/brackets/" + bracketName);
 			Scanner truthScanner = new Scanner(truthFile);
 			Scanner bracketScanner = new Scanner(bracketFile);
 			int truthRound = 1;
@@ -67,32 +72,22 @@ public class Bracket {
 			bracketScanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
-			e.printStackTrace();
 			return 0;
 		}
 
 		return score;
 	}
 
+	/**
+	 * Takes an line from a bracket (with round in it) and passes back the round number
+	 * @param line the line to parse
+	 * @return the round number found
+	 */
 	private static int getRound(String line) {
 		Pattern regex = Pattern.compile("\\d+");
 		Matcher match = regex.matcher(line);
 		match.find();
 		return Integer.parseInt(match.group());
-	}
-
-	public void addFinals(Matchup game, int gameNum) {
-		if (gameNum < finalFour.length) {
-			finalFour[gameNum] = game;
-		}
-	}
-
-	public void addChampionship(Matchup game) {
-		this.championship = game;
-	}
-
-	public void addWinner(Team team) {
-		winner = team;
 	}
 
 	/**

@@ -18,42 +18,17 @@ public class CreateBracketTesting {
 	@Test
 	public void testCreateBracket() {
 		CreateBracket obj = new CreateBracket();
-		boolean bracketMade = obj.createBracket("testuser",bracketName);
+		boolean bracketMade = obj.createBracket(bracketName,"testuser");
 		assertTrue("Bracket not created",bracketMade);
-		obj.deleteBracket(bracketName);
-	}
-	
-	@Test
-	public void testCompareBracket() {
-		CreateBracket obj = new CreateBracket();
-		obj.createBracket("testuser",bracketName);
-		Bracket bracketExpected = new Bracket();
-		bracketExpected = createExpected(bracketExpected);
-		boolean flag = true;
-		String filePathString = "./src/brackets/"+bracketName;
-		String filePathStringExpected = "./src/brackets/expectedbracket";
-		try {
-			Scanner bracketReader=new Scanner(new File(filePathString));
-			Scanner bracketReaderExpected=new Scanner(new File(filePathStringExpected));
-			while(bracketReader.hasNextLine()) {
-				if(!bracketReader.nextLine().equals(bracketReaderExpected.nextLine())) {
-					flag = false;
-				}
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("No bracket found");
-			e.printStackTrace();
-		}
-		
-		assertTrue("Expected Bracket not Created", flag);
+		obj.deleteBracket("testuser-"+bracketName);
 	}
 	
 	@Test
 	public void testModifyBracket() {
 		CreateBracket obj = new CreateBracket();
-		obj.createBracket("testuser",bracketName);
+		obj.createBracket(bracketName,"testuser");
 		System.out.println("Enter only 1's");
-		Bracket bracketModified = obj.modifyBracket(bracketName);
+		Bracket bracketModified = obj.modifyBracket("testuser-"+bracketName);
 		
 		CreateBracket obj2 = new CreateBracket();
 		Bracket bracketExpected = new Bracket();
@@ -61,14 +36,14 @@ public class CreateBracketTesting {
 		bracketExpected = modifyExpected(bracketExpected);
 		
 		assertTrue("Expected Bracket not Created", bracketModified.toString().equals(bracketExpected.toString()));
-		obj.deleteBracket(bracketName);
+		obj.deleteBracket("testuser-"+bracketName);
 	}
 	
 	@Test
 	public void testDeleteBracket() {
 		CreateBracket obj = new CreateBracket();
-		obj.createBracket("testuser",bracketName);
-		boolean bracketDeleted = obj.deleteBracket(bracketName);
+		obj.createBracket(bracketName,"testuser");
+		boolean bracketDeleted = obj.deleteBracket("testuser-"+bracketName);
 		assertTrue("Bracket not deleted",bracketDeleted);
 	}
 	

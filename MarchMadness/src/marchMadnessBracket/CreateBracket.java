@@ -232,6 +232,7 @@ public class CreateBracket {
 	// ask user to choose winners
 	/**
 	 * Prompts the user through the picks for a bracket
+	 * 
 	 * @param bracket bracket to modify
 	 * @return the modified bracket
 	 */
@@ -355,8 +356,9 @@ public class CreateBracket {
 	// view bracket from file
 	/**
 	 * displays a bracket and score of the bracket
-	 * @param name 
-	 * @return
+	 * 
+	 * @param name name of bracket to view
+	 * @return whether or not the bracket was successfully shown
 	 */
 	public boolean viewBracket(String name) {
 
@@ -370,11 +372,16 @@ public class CreateBracket {
 			System.out.println("\nScore: " + Bracket.score(name));
 		} catch (FileNotFoundException e) {
 			System.out.println("No bracket found");
+			return false;
 		}
 		return true;
 	}
 
-	// delete bracket
+	/**
+	 * deletes a bracket
+	 * @param bracketName name of bracket to delete
+	 * @return whether the bracket was successfully deleted
+	 */
 	public boolean deleteBracket(String bracketName) {
 		String filePathString = "./src/brackets/" + bracketName;
 		File f = new File(filePathString);

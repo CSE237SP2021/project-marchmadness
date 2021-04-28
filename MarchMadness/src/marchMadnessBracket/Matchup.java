@@ -44,6 +44,11 @@ public class Matchup {
 		return null;
 	}
 
+	/**
+	 * Picks winner of game
+	 * @param whoWins the winner to pick
+	 * @return the matchup
+	 */
 	public Matchup pickWinner(int whoWins) {
 		if (whoWins == 1) {
 			chosenWinner = 1;

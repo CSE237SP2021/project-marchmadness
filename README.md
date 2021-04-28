@@ -16,3 +16,9 @@ Jeffrey Candell
 2. During the next iteration we will work on making modifying brackets and scoring brackets so that brackets can be compared to each other, and allow the administrator to have more control.
 3. The modifying a bracket/picking all the winners does not work completely, there are a few bugs in it. But for the most part it works.
 4. To run the program simply enter the MarchMadness folder and run the run.sh script
+
+# Iteration 3
+1. a
+2. a
+3. a
+4. to run the program once it is cloned simply enter the MarchMadness folder and do the command ./run.sh. If it is giving you an error about line endings, try cloning using git clone -c core.autocrlf=false https://...

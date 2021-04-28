@@ -18,6 +18,6 @@ Jeffrey Candell
 4. To run the program simply enter the MarchMadness folder and run the run.sh script
 
 # Iteration 3
-1. This iteration we completed user stories to modify brackets, delete brackets, make picks for brackets, implement user-specific brackets, and merge the interfaces and branches.
+1. This iteration we completed user stories to modify brackets, delete brackets, make picks for brackets, score brackets, implement user-specific brackets, and merge the interfaces and branches.
 2. Everything implemented works.
 3. To run the program once it is cloned simply enter the MarchMadness folder and do the command ./run.sh. If it is giving you an error about line endings, try cloning using git clone -c core.autocrlf=false https://...

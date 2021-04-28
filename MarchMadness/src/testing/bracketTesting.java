@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 class bracketTesting {
 
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	public void testToString() {
+		
 	}
 
 }

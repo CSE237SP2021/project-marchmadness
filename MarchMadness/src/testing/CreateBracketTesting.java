@@ -18,7 +18,7 @@ public class CreateBracketTesting {
 	@Test
 	public void testCreateBracket() {
 		CreateBracket obj = new CreateBracket();
-		boolean bracketMade = obj.createBracket(bracketName);
+		boolean bracketMade = obj.createBracket("testuser",bracketName);
 		assertTrue("Bracket not created",bracketMade);
 		obj.deleteBracket(bracketName);
 	}
@@ -26,7 +26,7 @@ public class CreateBracketTesting {
 	@Test
 	public void testCompareBracket() {
 		CreateBracket obj = new CreateBracket();
-		obj.createBracket(bracketName);
+		obj.createBracket("testuser",bracketName);
 		Bracket bracketExpected = new Bracket();
 		bracketExpected = createExpected(bracketExpected);
 		boolean flag = true;
@@ -51,7 +51,7 @@ public class CreateBracketTesting {
 	@Test
 	public void testModifyBracket() {
 		CreateBracket obj = new CreateBracket();
-		obj.createBracket(bracketName);
+		obj.createBracket("testuser",bracketName);
 		System.out.println("Enter only 1's");
 		Bracket bracketModified = obj.modifyBracket(bracketName);
 		
@@ -67,7 +67,7 @@ public class CreateBracketTesting {
 	@Test
 	public void testDeleteBracket() {
 		CreateBracket obj = new CreateBracket();
-		obj.createBracket(bracketName);
+		obj.createBracket("testuser",bracketName);
 		boolean bracketDeleted = obj.deleteBracket(bracketName);
 		assertTrue("Bracket not deleted",bracketDeleted);
 	}

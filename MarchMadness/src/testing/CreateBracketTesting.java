@@ -30,8 +30,8 @@ public class CreateBracketTesting {
 		Bracket bracketExpected = new Bracket();
 		bracketExpected = createExpected(bracketExpected);
 		boolean flag = true;
-		String filePathString = "./src/brackets/"+bracketName;
-		String filePathStringExpected = "./src/brackets/expectedbracket";
+		String filePathString = "./src/brackets/testuser-"+bracketName;
+		String filePathStringExpected = "./src/brackets/testuser-expectedbracket";
 		try {
 			Scanner bracketReader=new Scanner(new File(filePathString));
 			Scanner bracketReaderExpected=new Scanner(new File(filePathStringExpected));

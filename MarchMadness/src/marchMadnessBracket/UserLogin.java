@@ -70,7 +70,7 @@ public class UserLogin {
         return true;
 	}
 
-	protected boolean login() {
+	protected String login() {
 		System.out.println("Username:");
 		Scanner usernameKeyboardIn = new Scanner(System.in);
         String usernameInput = usernameKeyboardIn.nextLine();
@@ -81,6 +81,7 @@ public class UserLogin {
         
         File loginFile = new File("./src/marchMadnessBracket/LoginInfo"); 
         boolean loginSuccess = false;
+        String username="";
         
         try {
         	Scanner scanner = new Scanner(loginFile);
@@ -88,7 +89,7 @@ public class UserLogin {
 
             	String loginTest = scanner.nextLine(); 
             	String[] parts = loginTest.split(" & ");
-            	String username = parts[0];
+            	username = parts[0];
             	String password = parts[1];
             	
                
@@ -107,10 +108,10 @@ public class UserLogin {
         
         if (loginSuccess == false) {
         	System.out.println("Incorrect Login Info.");
-        	return false;
+        	return null;
         }
         
-        return true;
+        return usernameInput;
         
 	}
 

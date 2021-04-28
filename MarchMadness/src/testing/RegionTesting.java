@@ -1,3 +1,4 @@
+
 package testing;
 
 import org.junit.Test;
@@ -21,3 +22,4 @@ public class RegionTesting {
 		assertTrue("Output was not returned as expected", output.equals(expectedOutput));
 	}
 }
+

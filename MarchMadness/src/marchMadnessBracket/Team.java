@@ -9,6 +9,11 @@ public class Team {
 		this.rank=rank;
 	}
 	
+	public Team() {
+		this.name=null;
+		this.rank=0;
+	}
+	
 	public String getTeamname() {
 		return this.name;
 	}

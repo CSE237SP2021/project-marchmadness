@@ -4,225 +4,399 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CreateBracket {
-	
+
 	private Bracket bracket;
 	private Scanner input;
 
 	public CreateBracket() {
-		input=new Scanner(System.in);
+		input = new Scanner(System.in);
 	}
 
 	public static void main(String args[]) {
-		
-		
-		
-		CreateBracket Obj = new CreateBracket();
-		boolean quit=false;
 
-		while (!quit) {
-			String option = Obj.displayOptions();
-	        
-	        if (option.equals("1")) {
-	        		Obj.createBracket();
-	        		continue;
-	        }
-	        /*else if (option.equals("2")) {
-	        		Obj.modifyBracket();
-	        		break;
-	        }*/
-	        else if(option.equals("3")) {
-	        	quit = true;
-	        }
-	        else if(option.equals("4")) {
-	        	Obj.viewBracket();
-	        }
-	        else {
-	        		System.out.println("Wrong input. Please re-enter your choice.");
-	        		continue;
-	        }
-		}
-		Obj.close();
+//		CreateBracket Obj = new CreateBracket();
+//		boolean quit = false;
+//
+//		while (!quit) {
+//			String option = Obj.displayOptions();
+//
+//			if (option.equals("1")) {
+//				String bracketName = Obj.chooseBracketName();
+//				Obj.createBracket(bracketName);
+//				continue;
+//			} else if (option.equals("2")) {
+//				String bracketName = Obj.pickBracket();
+//				Obj.modifyBracket(bracketName);
+//				break;
+//			} else if (option.equals("3")) {
+//				quit = true;
+//			} else if (option.equals("4")) {
+//				String bracketName = Obj.pickBracket();
+//				Obj.viewBracket(bracketName);
+//			} else if (option.equals("5")) {
+//				String bracketName = Obj.pickBracket();
+//				Obj.deleteBracket(bracketName);
+//			} else {
+//				System.out.println("Wrong input. Please re-enter your choice.");
+//				continue;
+//			}
+//		}
+//		Obj.close();
 	}
-	
+
 	/**
-	 * A function that displays a users options then returns their choice
-	 * @return the choice of the user
+	 * Displays options for brackets and returns the input
+	 * 
+	 * @return the user's input
 	 */
-	protected String displayOptions() {
-		System.out.println("Please select the following options: 1. Create a Bracket, 2. Modify a Bracket, 3. Quit, 4. View Bracket");
-        String option = this.input.next();
+	public String displayOptions() {
+
+		System.out.println(
+				"Please select the following options: 1. Create a Bracket, 2. Modify a Bracket, 3. Quit, 4. View Bracket, 5. Delete Bracket");
+		String option = this.input.next();
+
 		return option;
 	}
-	
+
 	/**
-	 * Prompts the user for the name of the bracket and then creates a bracket with that name if one does not already exist
-	 * @return true if it is successfully created, false otherwise
+	 * Returns the name inputted by the user for a new bracket
+	 * 
+	 * @param user the user who is creating the bracket
+	 * @return the name of the bracket if valid, or null
 	 */
-	public boolean createBracket() {
+	public String chooseBracketName(String user) {
 		System.out.println("Enter a Bracket Name:");
-		//Scanner newBracketKeyboardIn = new Scanner(System.in);
-        String bracketName = input.next();
-        String filePathString = "./src/brackets/"+bracketName;
-        File f = new File(filePathString);
-        if(f.exists() && !f.isDirectory()) { 
-        	System.out.println("Bracket with this name already exists.");
-        	//newBracketKeyboardIn.close();
-            return false;
-        }
-        bracket = new Bracket();
-        Bracket newBracket = setTeams();
-        if(newBracket!=null) {
-        	outputFile(filePathString, newBracket);
-        }
-        //newBracketKeyboardIn.close();
-        return true;
+		// Scanner newBracketKeyboardIn = new Scanner(System.in);
+		String bracketName = input.next();
+		String filePathString = "./src/brackets/" + user + "-" + bracketName;
+		File f = new File(filePathString);
+		if (f.exists() && !f.isDirectory()) {
+			System.out.println("Bracket with this name already exists.");
+			// newBracketKeyboardIn.close();
+			return null;
+		}
+		return bracketName;
 	}
-	
+
 	/**
-	 * Creates a bracket object from the original teams
-	 * @return the bracket object created
+	 * Asks for a name for the bracket and then creates a bare bones bracket
+	 * 
+	 * @param bracketName name of bracket being created
+	 * @param user        user creating the bracket
+	 * @return true if successful and false otherwise
+	 */
+	public boolean createBracket(String bracketName, String user) {
+		if (bracketName == null) {
+			return false;
+		}
+		String filePathString = "./src/brackets/" + user + "-" + bracketName;
+		bracket = new Bracket();
+		Bracket newBracket = setTeams();
+		outputFile(filePathString, newBracket);
+		// modifyBracket(bracketName);
+		return true;
+	}
+
+	// Helper function to set teams to use in new bracket, extracted from Teams
+	// file.
+	/**
+	 * Helper function to return a bare bones bracket
+	 * 
+	 * @return the bracket object with the first round teams set
 	 */
 	private Bracket setTeams() {
-		File teamFile = new File("./src/marchMadnessBracket/Teams"); 
-        String region = "West";
-        Scanner scanner;
-        try {
-        	scanner = new Scanner(teamFile);
-        	while (scanner.hasNextLine()) {
+		File teamFile = new File("./src/marchMadnessBracket/Teams");
+		String region = "West";
+		Scanner scanner;
+		try {
+			scanner = new Scanner(teamFile);
+			while (scanner.hasNextLine()) {
 
-            	String loginTest = scanner.nextLine(); 
-            	String[] parts = loginTest.split(", ");
-            	if(parts[0].equals("West")) {
-            		region = "West";
-            	}
-            	else if(parts[0].equals("East")) {
-            		region = "East";
-            	}
-            	else if(parts[0].equals("South")) {
-            		region = "South";
-            	}
-            	else if(parts[0].equals("Midwest")) {
-            		region = "Midwest";
-            	}
-            	else {
-            		for(int i = 0; i < parts.length/2; i++) {
-            			Team team1 = new Team(parts[i], i+1);
-            			Team team2 = new Team(parts[parts.length-i-1], parts.length-i);
-            			Matchup matchup = new Matchup(team1, team2);
-            			bracket.regions.get(region).addMatchup(matchup, 1);
-            		}
-            	}
-            }
-        	scanner.close();
-        } catch (FileNotFoundException e) {
-        System.out.println("An error occurred.");
-        e.printStackTrace();
-        return null;
-        }
-        
-        return bracket;
+				String teamList = scanner.nextLine();
+				String[] parts = teamList.split(", ");
+
+				if (parts[0].equals("West")) {
+					region = "West";
+				} else if (parts[0].equals("East")) {
+					region = "East";
+				} else if (parts[0].equals("South")) {
+					region = "South";
+				} else if (parts[0].equals("Midwest")) {
+					region = "Midwest";
+				} else {
+					Team[] teams = new Team[16];
+					for (int i = 0; i < parts.length; i++) {
+						Team team1 = new Team(parts[i], i + 1);
+						teams[i] = team1;
+					}
+					Matchup[] matchups = new Matchup[8];
+
+					// order that normal bracket plays
+					matchups[0] = new Matchup(teams[0], teams[15]);
+					matchups[1] = new Matchup(teams[7], teams[8]);
+					matchups[2] = new Matchup(teams[4], teams[11]);
+					matchups[3] = new Matchup(teams[3], teams[12]);
+					matchups[4] = new Matchup(teams[5], teams[10]);
+					matchups[5] = new Matchup(teams[2], teams[13]);
+					matchups[6] = new Matchup(teams[6], teams[9]);
+					matchups[7] = new Matchup(teams[1], teams[14]);
+
+					for (int i = 0; i < matchups.length; i++) {
+						bracket.regions.get(region).addMatchup(matchups[i], 1);
+					}
+				}
+			}
+			scanner.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+			return null;
+		}
+
+		return bracket;
 	}
-	
+
 	/**
 	 * Writes the bracket to a file at the path
+	 * 
 	 * @param pathString the path to the file to write the bracket
-	 * @param bracket the bracket to write
+	 * @param bracket    the bracket to write
 	 */
+
 	private void outputFile(String pathString, Bracket bracket) {
 		try {
-            FileWriter loginInfoWriter = new FileWriter(pathString, true);
-            /*for(int i = 0; i < 4; i++) {
-            	Region region = bracket.getRegion(i);
-            	loginInfoWriter.write("\n");
-                loginInfoWriter.write(region.getName()+"\n");
-                loginInfoWriter.write(region.toString());
-                loginInfoWriter.write("\n");
-                loginInfoWriter.close();
-            }*/
-            loginInfoWriter.write(bracket.toString());
-            loginInfoWriter.close();
-            
-            System.out.println("Successfully created bracket file.");
-          } catch (IOException e) {
-            System.out.println("An error occurred here.");
-            e.printStackTrace();
-          }
-		//keyboardIn.close();
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean modifyBracket() {
-		String path = "./src/marchMadnessBracket/Bracket";
-		File folder = new File(path);
-		File[] listOfFiles = folder.listFiles();
+			FileWriter loginInfoWriter = new FileWriter(pathString, true);
+			loginInfoWriter.write(bracket.toString());
+			loginInfoWriter.close();
 
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()) {
-				System.out.println("File " + listOfFiles[i].getName());
-			}
-		}
-		
-		System.out.println("Enter a Bracket to Modify:");
-		Scanner bracketKeyboardIn = new Scanner(System.in);
-        String bracketName = bracketKeyboardIn.nextLine();
-        String filePathString = "./src/marchMadnessBracket/Bracket/"+bracketName;
-        File f = new File(filePathString);
-        if(!(f.exists() && !f.isDirectory())) { 
-        	System.out.println("Bracket does not exist");
-        	bracketKeyboardIn.close();
-            return false;
-        }
-        FileWriter bracketWriter;
-        try {
-            bracketWriter = new FileWriter(filePathString, true);
-            
-          } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-            bracketKeyboardIn.close();
-            return false;
-          }
-        bracketKeyboardIn.close();
-        try {
-			bracketWriter.close();
+			System.out.println("Successfully created bracket file.");
 		} catch (IOException e) {
+			System.out.println("An error occurred here.");
 			e.printStackTrace();
 		}
-        return true;
+
 	}
-	
+
+	// ask user to pick a bracket
 	/**
-	 * closes the scanner when done
+	 * Prompts user to pick a bracket with options
+	 * 
+	 * @param user the user that must be at the beginning of the filename, empty
+	 *             string if all brackets
+	 * @return the name of the bracket chosen
+	 */
+	public String pickBracket(String user) {
+		String path = "./src/brackets";
+
+		File folder = new File(path);
+		File[] listOfFiles = folder.listFiles();
+		System.out.println("Brackets: ");
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile() && listOfFiles[i].getName().indexOf(user) == 0) {
+				System.out.println(listOfFiles[i].getName());
+			}
+		}
+
+		System.out.println("\nChoose a Bracket:");
+		Scanner bracketKeyboardIn = new Scanner(System.in);
+		String bracketName = bracketKeyboardIn.nextLine();
+		return bracketName;
+	}
+
+	/**
+	 * Resets a bracket and gets all the picks
+	 * 
+	 * @param bracketName name of the bracket
+	 * @return the new bracket object
+	 */
+	public Bracket modifyBracket(String bracketName) {
+		String filePathString = "./src/brackets/" + bracketName;
+		File f = new File(filePathString);
+		if (!(f.exists() && !f.isDirectory())) {
+			System.out.println("Bracket does not exist");
+			return null;
+		}
+
+		f.delete();
+		bracket = new Bracket();
+		bracket = setTeams();
+		bracket = getPicks(bracket);
+		outputFile(filePathString, bracket);
+		return bracket;
+	}
+
+	// ask user to choose winners
+	/**
+	 * Prompts the user through the picks for a bracket
+	 * 
+	 * @param bracket bracket to modify
+	 * @return the modified bracket
+	 */
+	private Bracket getPicks(Bracket bracket) {
+		Scanner winnerIn = new Scanner(System.in);
+		String[] regions = { "West", "East", "South", "Midwest" };
+		Team[] eliteEightTeams = new Team[8];
+		Team[] finalFourTeams = new Team[4];
+		int countTeams = 0;
+		Matchup[] finals = new Matchup[3];
+
+		// each round after the first
+		for (int round = 2; round <= 4; round++) {
+			System.out.println("\nWho will win? Type in 1 (first team) or 2 (second team):\n\n");
+			for (int i = 0; i < 4; i++) {
+				System.out.println("\n\n\n" + regions[i] + ":\tRound " + (round - 1) + "\n");
+				Region region = bracket.regions.get(regions[i]);
+
+				// extract matchups from region arraylist
+				ArrayList<Matchup> arraylist = region.getMatchups(round - 1);
+				int counter = 0;
+
+				// create new matchups in the next round from this round
+				Team temp = null;
+				for (Matchup game : arraylist) {
+					int option = 0;
+					// input winner
+					while (option != 1 && option != 2) {
+						System.out.println(game.getInfo());
+
+						String inputWinner = winnerIn.next();
+						option = Integer.parseInt(inputWinner);
+					}
+					game = game.pickWinner(option);
+					if (counter % 2 == 0) {
+						temp = game.getWinner();
+						if (round == 4) {
+							eliteEightTeams[countTeams] = game.getWinner();
+							countTeams++;
+						}
+					} else {
+						Matchup nextGame = new Matchup(temp, game.getWinner());
+						if (round == 4) {
+							eliteEightTeams[countTeams] = game.getWinner();
+							countTeams++;
+						}
+						region.addMatchup(nextGame, round);
+
+					}
+					counter++;
+
+				}
+			}
+		}
+
+		System.out.println("Elite Eight:\nWho will win? Type in 1 (first team) or 2 (second team):\n\n");
+		int eliteNumber = 0;
+		// elite eight, round 4, separate because has no "next" round in the region
+		for (int i = 0; i < 4; i++) {
+			Region region = bracket.regions.get(regions[i]);
+			Matchup game = region.getMatchups(4).get(0);
+			System.out.println("\n\n\n" + regions[i] + ":\tRound 4\n");
+			int option = 0;
+			while (option != 1 && option != 2) {
+				System.out.println(game.getInfo());
+
+				String inputWinner = winnerIn.next();
+				option = Integer.parseInt(inputWinner);
+			}
+			game = game.pickWinner(option);
+			finalFourTeams[i] = game.getWinner();
+		}
+
+		// final four matches
+		bracket.finalFour[0] = new Matchup(finalFourTeams[0], finalFourTeams[1]);
+		bracket.finalFour[1] = new Matchup(finalFourTeams[2], finalFourTeams[3]);
+		System.out.println("\n\n\nFinalFour:\n");
+		int option = 0;
+		String inputWinner = "";
+		while (option != 1 && option != 2) {
+			System.out.println(bracket.finalFour[0].getInfo());
+			inputWinner = winnerIn.next();
+			option = Integer.parseInt(inputWinner);
+		}
+		bracket.finalFour[0] = bracket.finalFour[0].pickWinner(option);
+		Team finalist1 = bracket.finalFour[0].getWinner();
+		option = 0;
+		while (option != 1 && option != 2) {
+			System.out.println(bracket.finalFour[1].getInfo());
+			inputWinner = winnerIn.next();
+			option = Integer.parseInt(inputWinner);
+		}
+		bracket.finalFour[1] = bracket.finalFour[1].pickWinner(option);
+		Team finalist2 = bracket.finalFour[1].getWinner();
+
+		// championship match
+		bracket.championship = new Matchup(finalist1, finalist2);
+
+		System.out.println("\n\n\nChampionship:\n");
+		option = 0;
+		while (option != 1 && option != 2) {
+			System.out.println(bracket.championship.getInfo());
+			inputWinner = winnerIn.next();
+			option = Integer.parseInt(inputWinner);
+		}
+		bracket.championship = bracket.championship.pickWinner(option);
+
+		// winner
+		bracket.winner = bracket.championship.getWinner();
+
+		return bracket;
+	}
+
+	/**
+	 * closes the scanner
 	 */
 	public void close() {
 		this.input.close();
 	}
-	
+
+	// view bracket from file
 	/**
-	 * prints the content of the bracket file with the inputed name
-	 * @return true if it successfully found, false otherwise
+	 * displays a bracket and score of the bracket
+	 * 
+	 * @param name name of bracket to view
+	 * @return whether or not the bracket was successfully shown
 	 */
-	public boolean viewBracket() {
-		System.out.println("What is the name of the bracket you would like to view");
-		String name = input.next();
-		String filePathString = "./src/brackets/"+name;
+	public boolean viewBracket(String name) {
+
+		String filePathString = "./src/brackets/" + name;
 		try {
-			Scanner bracketReader=new Scanner(new File(filePathString));
-			while(bracketReader.hasNextLine()) {
+			Scanner bracketReader = new Scanner(new File(filePathString));
+			while (bracketReader.hasNextLine()) {
 				System.out.println(bracketReader.nextLine());
 			}
 			bracketReader.close();
+			System.out.println("\nScore: " + Bracket.score(name));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			System.out.println("No bracket found");
-			e.printStackTrace();
+			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * deletes a bracket
+	 * @param bracketName name of bracket to delete
+	 * @return whether the bracket was successfully deleted
+	 */
+	public boolean deleteBracket(String bracketName) {
+		String filePathString = "./src/brackets/" + bracketName;
+		File f = new File(filePathString);
+		if (!(f.exists() && !f.isDirectory())) {
+			System.out.println("Bracket does not exist");
+			return false;
+		}
+
+		if (f.delete()) {
+			System.out.println("Deleted " + bracketName);
+			return true;
+		} else {
+			System.out.println("Couldn't delete " + bracketName);
+			return false;
+		}
+
 	}
 }

@@ -14,6 +14,11 @@ public class Region {
 		this.name = name;
 	}
 
+	/**
+	 * adds a matchup to a given round
+	 * @param game game to add
+	 * @param round round to add game to
+	 */
 	public void addMatchup(Matchup game, int round) {
 		if (round <= rounds.length) {
 			rounds[round - 1].add(game);
